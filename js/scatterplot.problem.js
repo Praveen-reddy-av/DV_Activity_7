@@ -11,17 +11,17 @@ function scatter_plot(data,
     const X = data.map(d=>d[xCol])
     const Y = data.map(d=>d[yCol])
     const R = data.map(d=>d[rCol])
-    const colorCategories =  [... new Set(data.map(d=>d[colorCol]))] // unique values for the categorical data
+    const colorCategories =  [... new Set(data.map(d=>d[colorCol]))] 
     const color = d3.scaleOrdinal()
         .domain(colorCategories)
-        .range(d3.schemeTableau10) // color scheme of tableau10  https://observablehq.com/@d3/color-schemes
+        .range(d3.schemeTableau10) 
 
 
     const xExtent = d3.extent(X, d => +d);
     const yExtent = d3.extent(Y, d => +d);
 
-    const xMargin = (xExtent[1] - xExtent[0]) * 0.05; // 5% margin
-    const yMargin = (yExtent[1] - yExtent[0]) * 0.05; // 5% margin
+    const xMargin = (xExtent[1] - xExtent[0]) * 0.05; 
+    const yMargin = (yExtent[1] - yExtent[0]) * 0.05; 
 
     const xScale = d3.scaleLinear()
         .domain([xExtent[0] - xMargin, xExtent[1] + xMargin])
@@ -113,17 +113,17 @@ function scatter_plot(data,
     }
 
     function brushed() {
-        // Get brush selection bounds
-        let selected_coordinates = d3.brushSelection(this); // values on the screen
+        
+        let selected_coordinates = d3.brushSelection(this); 
 
-        if (!selected_coordinates) return; // Exit if no selection exists
+        if (!selected_coordinates) return; 
 
         const X1 = xScale.invert(selected_coordinates[0][0]);
         const X2 = xScale.invert(selected_coordinates[1][0]);
         const Y1 = yScale.invert(selected_coordinates[0][1]);
         const Y2 = yScale.invert(selected_coordinates[1][1]);
 
-        // Select elements within the brush area
+        
         d3.selectAll("circle").classed("selected", (d, i) => {
             if (+d[xCol] >= X1 && +d[xCol] <= X2 && +d[yCol] <= Y1 && +d[yCol] >= Y2) {
                 return true;
@@ -151,33 +151,33 @@ function scatter_plot(data,
         .attr("height","40")
         .attr("class",d=>d)
 
-        // Missing Part 5
+        
 
-        // Initialize an empty array to keep track of the selected countries
+        
         let selectedCountries = [];
 
         legends_items.on("click", (event, d) => {
-            // Check if the clicked country is already selected
+            
             const isSelected = selectedCountries.includes(d);
 
             if (isSelected) {
-                // If already selected, remove it from the selected countries array
+                
                 selectedCountries = selectedCountries.filter(country => country !== d);
             } else {
-                // If not selected, add it to the selected countries array
+                
                 selectedCountries.push(d);
             }
 
-            // Apply opacity fading effect to all circles based on the selected countries
+            
             d3.selectAll("circle")
-                .transition() // Apply the transition
-                .duration(200) // Duration of the fade effect
+                .transition() 
+                .duration(200) 
                 .style("opacity", (c) => {
-                    // If the country is in the selectedCountries array, fade it out
+                    
                     return selectedCountries.includes(c[colorCol]) ? 0.2 : 1;
                 });
 
-            // Toggle the 'selected' class for the circles of the clicked country
+            
             d3.selectAll("circle")
                 .classed("selected", c => selectedCountries.includes(c[colorCol]));
         });

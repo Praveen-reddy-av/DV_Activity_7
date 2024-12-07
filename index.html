@@ -60,7 +60,7 @@
         }
     </style>
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="js/scatterplot.js"></script>
+    <script src="js/scatterplot.problem.js"></script>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
@@ -75,7 +75,7 @@
 <script>
     d3.csv("./data/car_sample_data.csv")
         .then(data => {
-            // Filter the data to include only Model and Type columns for display
+            
             const filteredData = data.map(d => ({
                 Model: d.Model,
                 Type: d.Type,
@@ -91,7 +91,7 @@
             scatter_plot(
                 data = filteredData,
                 "#figure1",
-                title = "MPG vs Price",
+                title = "MPG vs PRICE",
                 xCol = "Price",
                 yCol = "MPG",
                 rCol = "Weight",
@@ -118,7 +118,7 @@
                 const selectedPoints = Array.from(document.querySelectorAll(".selected"));
                 const ids = [...new Set(selectedPoints.map(d => +d.id.split(" ")[0].slice(3)))];
 
-                // Clear the list before adding new items
+                
                 listBox.selectAll("li").remove();
 
                 if (ids.length > 0) {
@@ -128,7 +128,7 @@
                         .append("li")
                         .text(d => {
                             const point = filteredData[d];
-                            return `${point.Model} (${point.Type})`; // Display only Model and Type
+                            return `${point.Model} (${point.Type})`; 
                         });
                 }
             });
